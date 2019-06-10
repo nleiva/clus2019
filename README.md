@@ -52,3 +52,15 @@ config applied to [2001:420:2cff:1204::5502:2]:57344
 
 2019/06/10 14:43:28 This process took 2.17090586s
 ```
+
+4. Merge config
+
+```bash
+$ cd mergeconfig
+$ go build
+$ ./mergeconfig
+
+config merged on [2001:420:2cff:1204::5502:2]:57344 -> Request ID: 1, Response ID: 1
+
+2019/06/10 16:41:16 This process took 2.08032828s
+```
