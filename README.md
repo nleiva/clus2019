@@ -64,3 +64,13 @@ config merged on [2001:420:2cff:1204::5502:2]:57344 -> Request ID: 1, Response I
 
 2019/06/10 16:41:16 This process took 2.08032828s
 ```
+
+5. Delete config
+
+```bash
+$ cd deleteconfig
+$ go build
+$ ./deleteconfig
+
+config deleted on [2001:420:2cff:1204::5502:2]:57344 -> Request ID: 1, Response ID: 1
+```
