@@ -7,7 +7,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"time"
 
@@ -17,20 +16,18 @@ import (
 func timeTrack(start time.Time) {
 	elapsed := time.Since(start)
 	log.Printf("This process took %s\n", elapsed)
-
 }
 
 func main() {
 	// To time this process
 	defer timeTrack(time.Now())
 
-	// YANG path arguments; defaults to "yangocpaths.json"
-	ypath := flag.String("ypath", "../input/yangocpaths.json", "YANG path arguments")
+	// CLI config to apply; defaults to "interface lo1 desc test"
+	cli := flag.String("cli", "interface lo1 desc test", "Config to apply")
 	flag.Parse()
 
 	// ID for the transaction.
 	var id int64 = 1
-	var output string
 
 	// Manually specify target parameters.
 	router, err := xr.BuildRouter(
@@ -53,14 +50,10 @@ func main() {
 	}
 	defer conn.Close()
 
-	// Get config for the YANG paths specified on 'js'
-	js, err := ioutil.ReadFile(*ypath)
+	// Apply 'cli' config to target
+	err = xr.CLIConfig(ctx, conn, *cli, id)
 	if err != nil {
-		log.Fatalf("could not read file: %v: %v\n", *ypath, err)
+		log.Fatalf("failed to config %s, %v", router.Host, err)
 	}
-	output, err = xr.GetConfig(ctx, conn, string(js), id)
-	if err != nil {
-		log.Fatalf("could not get the config from %s, %v", router.Host, err)
-	}
-	fmt.Printf("\nconfig from %s\n %s\n", router.Host, output)
+	fmt.Printf("\nconfig applied to %s\n\n", router.Host)
 }

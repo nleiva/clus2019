@@ -23,7 +23,7 @@ func main() {
 	flag.Parse()
 
 	// ID for the transaction.
-	id := 1
+	var id int64 = 1
 	var output string
 
 	// Manually specify target parameters.
@@ -48,7 +48,7 @@ func main() {
 	defer conn.Close()
 
 	// Return show command output based on encoding selected
-	output, err = xr.ShowCmdTextOutput(ctx, conn, *cli, int64(id))
+	output, err = xr.ShowCmdTextOutput(ctx, conn, *cli, id)
 	if err != nil {
 		log.Fatalf("couldn't get the cli output: %v\n", err)
 	}
