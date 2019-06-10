@@ -75,6 +75,47 @@ $ ./deleteconfig
 config deleted on [2001:420:2cff:1204::5502:2]:57344 -> Request ID: 1, Response ID: 1
 ```
 
+6. Subscribe to Telemetry stream (process self-describing GPB)
+
+```bash
+$ cd telemetrykv
+$ go build
+$ ./telemetrykv
+******************************************************************************************
+Time 06:19:49PM, Path: Cisco-IOS-XR-ethernet-lldp-oper:lldp/nodes/node/neighbors/details/detail
+******************************************************************************************
+  node-name: 0/0/CPU0
+  interface-name: HundredGigE0/0/0/0
+  device-id: mrstn-5502-1.cisco.com
+   receiving-interface-name: HundredGigE0/0/0/0
+   device-id: mrstn-5502-1.cisco.com
+   chassis-id: 008a.9646.6cd9
+   port-id-detail: HundredGigE0/0/0/0
+   header-version: 0
+   ...
+```
+
+7. Subscribe to Telemetry stream (self-describing GPB)
+
+```bash
+$ cd telemetry
+$ go build
+$ ./telemetry
+Time 1560205882119, Path: Cisco-IOS-XR-ethernet-lldp-oper:lldp/nodes/node/neighbors/details/detail
+{
+  "NodeId": {
+    "NodeIdStr": "mrstn-5502-2.cisco.com"
+  },
+  "Subscription": {
+    "SubscriptionIdStr": "LLDP"
+  },
+  "encoding_path": "Cisco-IOS-XR-ethernet-lldp-oper:lldp/nodes/node/neighbors/details/detail",
+  "collection_id": 5,
+  "collection_start_time": 1560205882119,
+  "msg_timestamp": 1560205882119,
+  ...
+```
+
 ## gRPC config on router
 
 ```
