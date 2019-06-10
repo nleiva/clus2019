@@ -74,3 +74,45 @@ $ ./deleteconfig
 
 config deleted on [2001:420:2cff:1204::5502:2]:57344 -> Request ID: 1, Response ID: 1
 ```
+
+## gRPC config on router
+
+```
+grpc
+ port 57344
+ address-family ipv6
+!
+```
+
+## Telemetry subscription ID 
+
+It has to be preconfigured on the device <sup>[1](#myfootnote1)</sup>.
+
+```
+telemetry model-driven
+ sensor-group LLDPNeighbor
+  sensor-path Cisco-IOS-XR-ethernet-lldp-oper:lldp/nodes/node/neighbors/details/detail
+ !
+ subscription LLDP
+  sensor-group-id LLDPNeighbor sample-interval 15000
+ !
+!
+```
+
+<a name="myfootnote1">[1]</a>: [gNMI](https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi.proto) defines a variant where you do not need this config.
+
+## Certificate files
+
+You need to retrive the `ems.pem` file from the IOS XR device (after enabling gRPC/TLS) and put it in the [input](example/input) folder. You can find the file in the router on either `/misc/config/grpc/` or `/var/xr/config/grpc`.
+
+- /var/xr/config/grpc
+
+```console
+$ ls -la
+total 20
+drwxr-xr-x  3 root root 4096 Jul  5 17:47 .
+drwxr-xr-x 10 root root 4096 Jul  3 12:50 ..
+drwx------  2 root root 4096 Jul  3 12:50 dialout
+-rw-------  1 root root 1675 Jul  5 17:47 ems.key
+-rw-rw-rw-  1 root root 1513 Jul  5 17:47 ems.pem
+```
