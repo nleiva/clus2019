@@ -18,8 +18,6 @@ func main() {
 	// To time this process
 	defer timeTrack(time.Now())
 
-	// Encoding option; defaults to JSON
-	enc := flag.String("enc", "json", "Encoding: 'json' or 'text'")
 	// CLI to issue; defaults to "show grpc status"
 	cli := flag.String("cli", "show grpc status", "Command to execute")
 	flag.Parse()
@@ -50,14 +48,7 @@ func main() {
 	defer conn.Close()
 
 	// Return show command output based on encoding selected
-	switch *enc {
-	case "text":
-		output, err = xr.ShowCmdTextOutput(ctx, conn, *cli, int64(id))
-	case "json":
-		output, err = xr.ShowCmdJSONOutput(ctx, conn, *cli, int64(id))
-	default:
-		log.Fatalf("don't recognize encoding: %v\n", *enc)
-	}
+	output, err = xr.ShowCmdTextOutput(ctx, conn, *cli, int64(id))
 	if err != nil {
 		log.Fatalf("couldn't get the cli output: %v\n", err)
 	}
