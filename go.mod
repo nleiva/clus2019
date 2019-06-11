@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/golang/protobuf v1.2.0
-	github.com/nleiva/xrgrpc v0.4.2
+	github.com/golangci/golangci-lint v1.16.0 // indirect
+	github.com/nleiva/xrgrpc v0.4.3-0.20190513210201-ae4b3c37da37
 	github.com/pkg/errors v0.8.0
 )

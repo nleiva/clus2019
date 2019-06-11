@@ -116,6 +116,31 @@ Time 1560205882119, Path: Cisco-IOS-XR-ethernet-lldp-oper:lldp/nodes/node/neighb
   ...
 ```
 
+8. Subscribe to Telemetry stream (GPB)
+
+```bash
+$ cd telemetrygpb
+$ go build
+$ ./telemetrygpb
+Time 1560265990393, Path: Cisco-IOS-XR-ethernet-lldp-oper:lldp/nodes/node/neighbors/details/detail
+Decoded Keys:
+{
+  "node_name": "0/0/CPU0",
+  "interface_name": "HundredGigE0/0/0/0",
+  "device_id": "mrstn-5502-1.cisco.com"
+}
+Decoded Content:
+{
+  "lldp_neighbor": [
+    {
+      "receiving_interface_name": "HundredGigE0/0/0/0",
+      "device_id": "mrstn-5502-1.cisco.com",
+      "chassis_id": "008a.9646.6cd9",
+      "port_id_detail": "HundredGigE0/0/0/0",
+      "hold_time": 15,
+      ...
+```
+
 ## gRPC config on router
 
 ```
