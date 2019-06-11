@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"time"
 
 	xr "github.com/nleiva/xrgrpc"
@@ -28,8 +27,6 @@ func main() {
 	enc := flag.String("enc", "json", "Encoding: 'json' or 'cli'")
 	// Action to issue; defaults to "ping4.json"
 	act := flag.String("act", "../input/action/ping6.json", "Command to execute")
-	// Config file; defaults to "config.json"
-	cfg := flag.String("cfg", "../input/config.json", "Configuration file")
 	flag.Parse()
 
 	file, err := ioutil.ReadFile(*act)
@@ -38,24 +35,28 @@ func main() {
 	}
 	cli := string(file)
 
-	// Determine the ID for the transaction.
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	id := r.Int63n(10000)
-	output := "Empty"
+	// ID for the transaction.
+	var id int64 = 1
+	var output string
 
-	// Define target parameters from the configuration file
-	targets := xr.NewDevices()
-	err = xr.DecodeJSONConfig(targets, *cfg)
+	// Manually specify target parameters.
+	router, err := xr.BuildRouter(
+		xr.WithUsername("cisco"),
+		xr.WithPassword("cisco"),
+		//xr.WithHost("[2001:420:2cff:1204::5502:1]:57344"),
+		//xr.WithCert("../input/certificate/router1.pem"),
+		xr.WithHost("[2001:420:2cff:1204::5502:2]:57344"),
+		xr.WithCert("../input/certificate/router2.pem"),
+		xr.WithTimeout(20),
+	)
 	if err != nil {
-		log.Fatalf("could not read the config: %v\n", err)
+		log.Fatalf("could not build a router, %v", err)
 	}
 
-	// Setup a connection to the target. 'd' is the index of the router
-	// in the config file
-	d := 3
-	conn, ctx, err := xr.Connect(targets.Routers[d])
+	// Setup a connection to the target.
+	conn, ctx, err := xr.Connect(*router)
 	if err != nil {
-		log.Fatalf("could not setup a client connection to %s, %v", targets.Routers[d].Host, err)
+		log.Fatalf("could not setup a client connection to %s, %v", router.Host, err)
 	}
 	defer conn.Close()
 
@@ -71,5 +72,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("couldn't get an output: %v\n", err)
 	}
-	fmt.Printf("\noutput from %s\n %s\n", targets.Routers[d].Host, output)
+	fmt.Printf("\noutput from %s\n %s\n", router.Host, output)
 }

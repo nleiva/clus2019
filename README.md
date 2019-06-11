@@ -150,6 +150,31 @@ $ ./setroute -nh 2001:f00:2122::1
 2019/06/11 12:20:15 This process took 1.306517467s
 ```
 
+10. Trigger an action
+
+
+```bash
+$ cd action
+$ go build
+$ ./action
+
+output from [2001:420:2cff:1204::5502:2]:57344
+ {
+ "Cisco-IOS-XR-ping-act:output": {
+  "ping-response": {
+   "ipv6": {
+    "destination": "2001:420:2cff:1204::1",
+    "repeat-count": "2",
+    "data-size": "1350",
+    "timeout": "1",
+    "pattern": "abcd",
+    "rotate-pattern": false,
+    "replies": {
+     "reply": [
+      {
+       "reply-index": "1",
+       "result": "!"
+```
 
 ## gRPC config on router
 
