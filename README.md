@@ -141,12 +141,24 @@ Decoded Content:
       ...
 ```
 
+9. Set IPv6 route
+
+```bash
+$ cd setroute
+$ go build
+$ ./setroute -nh 2001:f00:2122::1
+2019/06/11 12:20:15 This process took 1.306517467s
+```
+
+
 ## gRPC config on router
 
 ```
 grpc
  port 57344
  address-family ipv6
+ service-layer
+ !
 !
 ```
 
