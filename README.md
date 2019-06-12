@@ -176,6 +176,26 @@ output from [2001:420:2cff:1204::5502:2]:57344
        "result": "!"
 ```
 
+## Pyang
+
+```
+pyang -f tree test.yang
+```
+
+## gRPC
+
+- Go
+
+```
+protoc --go_out=plugins=grpc:. user.proto
+```
+
+- Python
+
+```
+protoc --python_out=plugins=grpc:. user.proto
+```
+
 ## gRPC config on router
 
 ```
