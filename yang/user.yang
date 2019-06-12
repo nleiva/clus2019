@@ -1,0 +1,18 @@
+module test {
+    yang-version 1;
+    namespace "http://nleiva.com/yang/test";
+    prefix "test";
+
+    container user {
+        leaf name {
+            type string;
+        }
+        leaf email {
+            type string;
+        }
+        leaf id {
+            type uint16;
+        }
+
+    }
+}
